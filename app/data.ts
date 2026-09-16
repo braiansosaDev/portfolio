@@ -77,11 +77,11 @@ export const technologies: Technology[] = [
   { id: "go", label: "Go", category: "backend", icon: SiGo, color: "#00add8" },
   { id: "postgresql", label: "PostgreSQL", category: "data", icon: SiPostgresql, color: "#4169e1" },
   { id: "redis", label: "Redis", category: "data", icon: SiRedis, color: "#dc382d" },
-  { id: "influxdb", label: "InfluxDB", category: "data", icon: Database, color: "#22d3ee" },
+  { id: "influxdb", label: "InfluxDB", category: "data", icon: Database, color: "#38f8a6" },
   { id: "socketio", label: "Socket.IO", category: "realtime", icon: SiSocketdotio, color: "#f8fafc" },
   { id: "websockets", label: "WebSockets", category: "realtime", icon: RadioTower, color: "#34d399" },
   { id: "snap7", label: "Snap7", category: "industrial", icon: Cable, color: "#f59e0b" },
-  { id: "plc", label: "Siemens PLCs", category: "industrial", icon: CircuitBoard, color: "#14b8a6" },
+  { id: "plc", label: "Siemens PLCs", category: "industrial", icon: CircuitBoard, color: "#38f8a6" },
   { id: "docker", label: "Docker", category: "cloud", icon: SiDocker, color: "#2496ed" },
   { id: "azure", label: "Azure", category: "cloud", icon: Cloud, color: "#0078d4" },
   { id: "github-actions", label: "GitHub Actions", category: "cloud", icon: SiGithubactions, color: "#60a5fa" },
@@ -92,7 +92,7 @@ export const technologies: Technology[] = [
   { id: "ai", label: "AI/ML", category: "ai", icon: BrainCircuit, color: "#c084fc" },
   { id: "automation", label: "Automation", category: "tools", icon: Workflow, color: "#fb7185" },
   { id: "industrial", label: "Industrial", category: "industrial", icon: Factory, color: "#f97316" },
-  { id: "agents", label: "Agents", category: "ai", icon: Bot, color: "#2dd4bf" },
+  { id: "agents", label: "Agents", category: "ai", icon: Bot, color: "#38f8a6" },
   { id: "git", label: "Git", category: "tools", icon: GitBranch, color: "#f97316" },
 ];
 
@@ -108,11 +108,11 @@ export const projects: Project[] = [
     visibility: "private",
     featured: true,
     description: {
-      es: "Sistema de monitoreo y control en tiempo real para camaras de secado de madera, integrando aplicaciones web con PLCs Siemens y servicios de adquisicion de datos.",
+      es: "Sistema de monitoreo y control en tiempo real para cámaras de secado de madera, integrando aplicaciones web con PLCs Siemens y servicios de adquisición de datos.",
       en: "Real-time monitoring and control system for wood drying kilns, integrating web applications with Siemens PLCs and data acquisition services.",
     },
     problem: {
-      es: "Centralizar lectura, visualizacion y control operativo de variables industriales criticas.",
+      es: "Centralizar lectura, visualización y control operativo de variables industriales críticas.",
       en: "Centralize reading, visualization and operational control of critical industrial variables.",
     },
     role: {
@@ -120,7 +120,7 @@ export const projects: Project[] = [
       en: "Full Stack Developer, industrial backend, realtime integrations.",
     },
     impact: {
-      es: "Datos operativos en tiempo real y arquitectura preparada para visualizacion, control y trazabilidad.",
+      es: "Datos operativos en tiempo real y arquitectura preparada para visualización, control y trazabilidad.",
       en: "Real-time operational data and an architecture prepared for visualization, control and traceability.",
     },
     technologies: ["fastapi", "python", "snap7", "plc", "socketio", "websockets", "redis", "influxdb", "docker", "nextjs", "react"],
@@ -149,7 +149,7 @@ export const projects: Project[] = [
       en: "Full Stack Developer, frontend/backend, data modeling, integrations and deployment.",
     },
     impact: {
-      es: "Mayor centralizacion operativa, mejor visibilidad de procesos y bases reutilizables para nuevos modulos.",
+      es: "Mayor centralización operativa, mejor visibilidad de procesos y bases reutilizables para nuevos módulos.",
       en: "Better operational centralization, improved process visibility and reusable foundations for new modules.",
     },
     technologies: ["nextjs", "react", "typescript", "nestjs", "postgresql", "redis", "azure", "openai", "docker"],
@@ -166,11 +166,11 @@ export const projects: Project[] = [
     visibility: "private",
     featured: true,
     description: {
-      es: "Portal de talento humano con frontend, API, formularios y servicios auxiliares para centralizar procesos de RRHH, asistencia y gestion interna.",
+      es: "Portal de talento humano con frontend, API, formularios y servicios auxiliares para centralizar procesos de RRHH, asistencia y gestión interna.",
       en: "Human talent portal with frontend, API, forms and auxiliary services to centralize HR, attendance and internal management workflows.",
     },
     problem: {
-      es: "Unificar informacion y flujos de RRHH con autenticacion, formularios, jobs, mailer y servicios internos.",
+      es: "Unificar información y flujos de RRHH con autenticación, formularios, jobs, mailer y servicios internos.",
       en: "Unify HR information and workflows with authentication, forms, jobs, mailer and internal services.",
     },
     role: {
@@ -178,7 +178,7 @@ export const projects: Project[] = [
       en: "Full Stack Developer, modular architecture, API, frontend and supporting services.",
     },
     impact: {
-      es: "Procesos de RRHH mas ordenados, datos centralizados y base tecnica extensible.",
+      es: "Procesos de RRHH más ordenados, datos centralizados y base técnica extensible.",
       en: "More organized HR processes, centralized data and an extensible technical base.",
     },
     technologies: ["nextjs", "react", "nestjs", "postgresql", "azure", "python", "automation"],
@@ -187,7 +187,7 @@ export const projects: Project[] = [
   {
     id: "supply-system",
     title: {
-      es: "Sistema de Gestion de Suministros",
+      es: "Sistema de Gestión de Suministros",
       en: "Supply Management System",
     },
     type: "Professional project - code not public",
@@ -195,11 +195,11 @@ export const projects: Project[] = [
     visibility: "private",
     featured: false,
     description: {
-      es: "Sistema interno para gestion de suministros con frontend operativo, API dedicada, autenticacion, tablas avanzadas e integraciones.",
+      es: "Sistema interno para gestión de suministros con frontend operativo, API dedicada, autenticación, tablas avanzadas e integraciones.",
       en: "Internal supply management system with operational frontend, dedicated API, authentication, advanced tables and integrations.",
     },
     problem: {
-      es: "Organizar solicitudes, seguimiento y administracion de suministros dentro de una herramienta trazable.",
+      es: "Organizar solicitudes, seguimiento y administración de suministros dentro de una herramienta trazable.",
       en: "Organize requests, tracking and supply administration inside a traceable tool.",
     },
     role: {
@@ -207,7 +207,7 @@ export const projects: Project[] = [
       en: "Full Stack Developer, API, frontend and operational experience.",
     },
     impact: {
-      es: "Mejor seguimiento de informacion y reduccion de controles dispersos.",
+      es: "Mejor seguimiento de información y reducción de controles dispersos.",
       en: "Better information tracking and fewer scattered controls.",
     },
     technologies: ["nextjs", "react", "nestjs", "postgresql", "azure", "typescript"],
@@ -224,19 +224,19 @@ export const projects: Project[] = [
     visibility: "private",
     featured: true,
     description: {
-      es: "Suite de aplicaciones para CRM, facturacion/cobro, liquidacion de produccion, consolidacion operativa y asistencia mediante chatbot externo.",
+      es: "Suite de aplicaciones para CRM, facturación/cobro, liquidación de producción, consolidación operativa y asistencia mediante chatbot externo.",
       en: "Application suite for CRM, billing, collections, production settlement, operational consolidation and external chatbot assistance.",
     },
     problem: {
-      es: "Integrar procesos administrativos y productivos que requieren carga, consolidacion, analisis y seguimiento operativo.",
+      es: "Integrar procesos administrativos y productivos que requieren carga, consolidación, análisis y seguimiento operativo.",
       en: "Integrate administrative and production workflows that require input, consolidation, analysis and operational tracking.",
     },
     role: {
-      es: "Full Stack Developer, frontend operativo, automatizacion, integraciones e IA aplicada.",
+      es: "Full Stack Developer, frontend operativo, automatización, integraciones e IA aplicada.",
       en: "Full Stack Developer, operational frontend, automation, integrations and applied AI.",
     },
     impact: {
-      es: "Flujos mas centralizados y herramientas especificas para operaciones de Bligraf Chile.",
+      es: "Flujos más centralizados y herramientas específicas para operaciones de Bligraf Chile.",
       en: "More centralized workflows and purpose-built tools for Bligraf Chile operations.",
     },
     technologies: ["nextjs", "react", "postgresql", "azure", "openai", "typescript"],
@@ -253,11 +253,11 @@ export const projects: Project[] = [
     visibility: "public",
     featured: true,
     description: {
-      es: "Sistema integral de gestion de recursos humanos con IA, backend de negocio y frontend para portal publico y backoffice interno.",
+      es: "Sistema integral de gestión de recursos humanos con IA, backend de negocio y frontend para portal público y backoffice interno.",
       en: "AI-powered human resources management system with business backend and frontend for a public portal and internal backoffice.",
     },
     problem: {
-      es: "Centralizar reclutamiento, personal, asistencia, nomina, licencias y control de acceso por roles.",
+      es: "Centralizar reclutamiento, personal, asistencia, nómina, licencias y control de acceso por roles.",
       en: "Centralize recruitment, staff, attendance, payroll, leaves and role-based access control.",
     },
     role: {
@@ -265,7 +265,7 @@ export const projects: Project[] = [
       en: "Full Stack Developer.",
     },
     impact: {
-      es: "Producto completo con separacion frontend/backend y modulos de apoyo basados en IA.",
+      es: "Producto completo con separación frontend/backend y módulos de apoyo basados en IA.",
       en: "Complete product with frontend/backend separation and AI-supported modules.",
     },
     technologies: ["python", "javascript", "fastapi", "react", "postgresql", "ai"],
@@ -294,11 +294,11 @@ export const projects: Project[] = [
       en: "Experiment with agents able to execute local actions from instructions and LLM-assisted reasoning.",
     },
     role: {
-      es: "Developer / experimentacion tecnica.",
+      es: "Developer / experimentación técnica.",
       en: "Developer / technical exploration.",
     },
     impact: {
-      es: "Demuestra interes practico en agentes, automatizacion local y modelos ejecutados fuera de servicios cloud.",
+      es: "Demuestra interés práctico en agentes, automatización local y modelos ejecutados fuera de servicios cloud.",
       en: "Shows practical interest in agents, local automation and models running outside cloud services.",
     },
     technologies: ["go", "agents", "ai", "automation"],
@@ -324,11 +324,11 @@ export const projects: Project[] = [
       en: "Reduce manual controls, repetitive input, operational errors and administrative time.",
     },
     role: {
-      es: "Software Engineer, automatizacion, soporte e implementacion con usuarios internos.",
+      es: "Software Engineer, automatización, soporte e implementación con usuarios internos.",
       en: "Software Engineer, automation, support and implementation with internal users.",
     },
     impact: {
-      es: "Procesos mas rapidos, reportes automatizados y mejor continuidad operativa.",
+      es: "Procesos más rápidos, reportes automatizados y mejor continuidad operativa.",
       en: "Faster processes, automated reports and better operational continuity.",
     },
     technologies: ["python", "automation", "selenium", "testing"],
@@ -352,29 +352,29 @@ export const copy = {
     role: "Software Engineer - Full Stack Developer",
     location: "Buenos Aires, Argentina",
     statusLabel: "estado",
-    locationLabel: "ubicacion",
+    locationLabel: "ubicación",
     focusLabel: "foco",
-    focusValue: "Backoffice / Tiempo real / Automatizacion",
+    focusValue: "Backoffice / Tiempo real / Automatización",
     availability: "Disponibilidad full time",
     intro:
       "Construyo sistemas full stack, backoffices, portales internos e integraciones para automatizar operaciones y volver trazables procesos complejos.",
     viewProjects: "Ver proyectos",
     profileTitle: "Perfil",
     profile:
-      "Desarrollador Full Stack con experiencia en diseno, arquitectura y desarrollo de sistemas escalables orientados a transformacion digital y automatizacion de operaciones. Foco en backoffice, portales internos, sistemas industriales, integraciones, modelado de datos, testing y despliegue cloud.",
+      "Desarrollador Full Stack con experiencia en diseño, arquitectura y desarrollo de sistemas escalables orientados a transformación digital y automatización de operaciones. Foco en backoffice, portales internos, sistemas industriales, integraciones, modelado de datos, testing y despliegue cloud.",
     experienceTitle: "Experiencia",
     projectsTitle: "Proyectos",
     filtersAll: "Todos",
     reset: "reiniciar",
     sourceAll: "origen:*",
     featuredOnly: "Destacados",
-    stackTitle: "Stack tecnico",
+    stackTitle: "Stack técnico",
     contactTitle: "Contacto",
     problem: "Problema",
     roleLabel: "Rol",
     impact: "Impacto",
     repos: "Repos relacionados",
-    privateCode: "Codigo privado",
+    privateCode: "Código privado",
     open: "Abrir",
   },
   en: {
@@ -443,8 +443,8 @@ export const experience = [
     title: "Software Engineer",
     points: {
       es: [
-        "Aplicaciones internas para centralizar informacion y digitalizar procesos administrativos.",
-        "Automatizaciones con Google Apps Script y Python para calculos, reportes y tareas recurrentes.",
+        "Aplicaciones internas para centralizar información y digitalizar procesos administrativos.",
+        "Automatizaciones con Google Apps Script y Python para cálculos, reportes y tareas recurrentes.",
         "Testing y validaciones con Selenium y PyTest, soporte IT y continuidad operativa.",
       ],
       en: [

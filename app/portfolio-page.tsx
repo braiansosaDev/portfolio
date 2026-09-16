@@ -276,10 +276,10 @@ export default function PortfolioPage({ locale }: { locale: Locale }) {
                 {project.technologies.length > 7 ? <span className="tech-pill">+{project.technologies.length - 7}</span> : null}
               </div>
               <div className="repos">
-                <span>{project.relatedRepos.length ? t.repos : t.privateCode}</span>
-                {project.relatedRepos.slice(0, 3).map((repo) => (
-                  <code key={repo}>{repo}</code>
-                ))}
+                <span>{project.visibility === "public" && project.relatedRepos.length ? t.repos : t.privateCode}</span>
+                {project.visibility === "public"
+                  ? project.relatedRepos.slice(0, 3).map((repo) => <code key={repo}>{repo}</code>)
+                  : null}
               </div>
               {project.links?.length ? (
                 <div className="links">

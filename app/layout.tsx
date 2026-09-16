@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "flag-icons/css/flag-icons.min.css";
 import "./globals.css";
+import CustomCursor from "./custom-cursor";
 
 export const metadata: Metadata = {
   title: "Braian Orlando Sosa | Software Engineer",
@@ -15,7 +16,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <CustomCursor />
+        {children}
+      </body>
     </html>
   );
 }
