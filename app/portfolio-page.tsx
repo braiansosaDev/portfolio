@@ -248,6 +248,19 @@ export default function PortfolioPage({ locale }: { locale: Locale }) {
                 <span className="source">{project.source}</span>
               </div>
               <h3>{project.title[locale]}</h3>
+              {project.media?.length ? (
+                <div className={`project-media media-count-${Math.min(project.media.length, 4)}`} aria-label={project.title[locale]}>
+                  {project.media.slice(0, 4).map((item, mediaIndex) => (
+                    <img
+                      key={item.src}
+                      src={item.src}
+                      alt={item.alt[locale]}
+                      className={mediaIndex === 0 ? "primary-media" : ""}
+                      loading="lazy"
+                    />
+                  ))}
+                </div>
+              ) : null}
               <p className="description">{project.description[locale]}</p>
               <div className="card-detail">
                 <strong>{t.problem}</strong>

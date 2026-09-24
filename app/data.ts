@@ -63,6 +63,7 @@ export type Project = {
   impact: Record<Locale, string>;
   technologies: string[];
   relatedRepos: string[];
+  media?: { src: string; alt: Record<Locale, string> }[];
   links?: { label: string; href: string }[];
 };
 
@@ -125,6 +126,15 @@ export const projects: Project[] = [
     },
     technologies: ["fastapi", "python", "snap7", "plc", "socketio", "websockets", "redis", "influxdb", "docker", "nextjs", "react"],
     relatedRepos: ["controlador-server-secaderos", "controlador-web-secaderos"],
+    media: [
+      {
+        src: "/swa-app-captura.png",
+        alt: {
+          es: "Panel de monitoreo de secadero industrial con estado de cámara, proceso y sensores.",
+          en: "Industrial kiln monitoring panel with chamber status, process data and sensors.",
+        },
+      },
+    ],
   },
   {
     id: "gottert-platform",
@@ -154,6 +164,36 @@ export const projects: Project[] = [
     },
     technologies: ["nextjs", "react", "typescript", "nestjs", "postgresql", "redis", "azure", "openai", "docker"],
     relatedRepos: ["COMERCIAL-G-APP", "crm-gottert-v2", "e-commerce-at", "produccion-apps-v4", "Proyectos-Apps-Gottert", "gottert-api"],
+    media: [
+      {
+        src: "/crm-app-captura.png",
+        alt: {
+          es: "Dashboard inicial del CRM interno con panel operativo, accesos y actividad reciente.",
+          en: "Internal CRM home dashboard with operational panel, shortcuts and recent activity.",
+        },
+      },
+      {
+        src: "/comex-app-captura.png",
+        alt: {
+          es: "Dashboard COMEX con control operativo de importaciones, trazabilidad y vencimientos.",
+          en: "COMEX dashboard with import operations control, traceability and deadlines.",
+        },
+      },
+      {
+        src: "/postventa-app-captura.png",
+        alt: {
+          es: "Administrador de postventa con confirmaciones, filtros y exportación de datos.",
+          en: "After-sales admin view with confirmations, filters and data export.",
+        },
+      },
+      {
+        src: "/at-app-captura.png",
+        alt: {
+          es: "Portal de asistencia técnica con informes diarios, gestión y nuevos casos técnicos.",
+          en: "Technical assistance portal with daily reports, management and new technical cases.",
+        },
+      },
+    ],
   },
   {
     id: "talent-portal",
@@ -183,6 +223,15 @@ export const projects: Project[] = [
     },
     technologies: ["nextjs", "react", "nestjs", "postgresql", "azure", "python", "automation"],
     relatedRepos: ["portal-th-api", "portal-th-app", "portal-th-forms", "portal-th-clock-service"],
+    media: [
+      {
+        src: "/portalth-app-captura.png",
+        alt: {
+          es: "Panel histórico de asistencia del portal de talento humano con indicadores, motivos de ausencia y tendencias.",
+          en: "Attendance history dashboard from the talent portal with indicators, absence reasons and trends.",
+        },
+      },
+    ],
   },
   {
     id: "supply-system",
@@ -212,6 +261,15 @@ export const projects: Project[] = [
     },
     technologies: ["nextjs", "react", "nestjs", "postgresql", "azure", "typescript"],
     relatedRepos: ["suministros-api", "suministros-app"],
+    media: [
+      {
+        src: "/suministros-app-captura.png",
+        alt: {
+          es: "Formulario de solicitud de suministros con carga de datos, aprobadores e items.",
+          en: "Supply request form with data entry, approvers and line items.",
+        },
+      },
+    ],
   },
   {
     id: "bligraf-suite",
