@@ -1,11 +1,79 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { ArrowUpRight, Github, Linkedin, Mail, RotateCcw } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { ArrowUpRight, ChevronDown, Download, Github, Linkedin, Mail, RotateCcw, X, ZoomIn } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { copy, experience, projects, technologies, type Locale } from "./data";
+import { copy, experience, projects, technologies, technologyCategories, type Locale, type Project } from "./data";
+import { projectDetails } from "./project-details";
 
 const techById = new Map(technologies.map((tech) => [tech.id, tech]));
+const primaryFilters = new Set(["nextjs", "react", "typescript", "nodejs", "python", "nestjs", "fastapi", "postgresql", "azure", "openai", "ai", "automation", "testing", "industrial"]);
+
+function TechPill({ id }: { id: string }) {
+  const tech = techById.get(id);
+  if (!tech) return null;
+  const Icon = tech.icon;
+  return (
+    <span className="tech-pill">
+      <Icon aria-hidden="true" style={{ color: tech.color }} />
+      {tech.label}
+    </span>
+  );
+}
+
+function ProjectTechnologies({ ids, locale }: { ids: string[]; locale: Locale }) {
+  const [expanded, setExpanded] = useState(false);
+  return (
+    <div className="tech-row">
+      {(expanded ? ids : ids.slice(0, 7)).map((id) => <TechPill key={id} id={id} />)}
+      {ids.length > 7 ? (
+        <button
+          type="button"
+          className="tech-pill tech-toggle"
+          aria-expanded={expanded}
+          aria-label={expanded ? copy[locale].less : copy[locale].fullStack}
+          onClick={() => setExpanded(!expanded)}
+        >
+          {expanded ? copy[locale].less : `+${ids.length - 7}`}
+        </button>
+      ) : null}
+    </div>
+  );
+}
+
+function ProjectCase({ project, locale }: { project: Project; locale: Locale }) {
+  const detail = projectDetails[project.id];
+  const t = copy[locale];
+  if (!detail) return null;
+
+  return (
+    <details className="case-details">
+      <summary>{t.explore}<ChevronDown size={16} aria-hidden="true" /></summary>
+      <div className="case-body">
+        <p className="case-status"><span>{t.projectStatus}</span>{detail.status[locale]}</p>
+        {detail.period ? <p className="case-status"><span>{t.period}</span>{detail.period}</p> : null}
+        <h4>{t.context}</h4>
+        <p>{detail.context[locale]}</p>
+        <h4>{t.activities}</h4>
+        <ul>
+          {detail.activities.map((activity) => <li key={activity.es}>{activity[locale]}</li>)}
+        </ul>
+        <h4>{t.implementation}</h4>
+        <p className="case-workflow">{detail.workflow[locale]}</p>
+        {detail.sections?.map((section) => (
+          <div className="case-module" key={section.title.es}>
+            <h4>{section.title[locale]}</h4>
+            <p>{section.body[locale]}</p>
+          </div>
+        ))}
+        <h4>{t.fullStack}</h4>
+        <div className="tech-row">
+          {project.technologies.map((id) => <TechPill key={id} id={id} />)}
+        </div>
+      </div>
+    </details>
+  );
+}
 
 export default function PortfolioPage({ locale }: { locale: Locale }) {
   const router = useRouter();
@@ -13,6 +81,8 @@ export default function PortfolioPage({ locale }: { locale: Locale }) {
   const [selectedSource, setSelectedSource] = useState<string>("all");
   const [featuredOnly, setFeaturedOnly] = useState(false);
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set(["top"]));
+  const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string; title: string } | null>(null);
+  const imageDialog = useRef<HTMLDialogElement>(null);
   const t = copy[locale];
   const navItems = ["profile", "experience", "projects", "stack", "contact"].map((id, index) => ({
     id,
@@ -24,7 +94,16 @@ export default function PortfolioPage({ locale }: { locale: Locale }) {
   }, [locale]);
 
   useEffect(() => {
+    if (!selectedImage) return;
+    imageDialog.current?.showModal();
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = previousOverflow; };
+  }, [selectedImage]);
+
+  useEffect(() => {
     const elements = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
+    if (!("IntersectionObserver" in window)) return;
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -39,12 +118,12 @@ export default function PortfolioPage({ locale }: { locale: Locale }) {
           observer.unobserve(entry.target);
         });
       },
-      { rootMargin: "0px 0px -12% 0px", threshold: 0.18 },
+      { threshold: 0 },
     );
 
     elements.forEach((element) => observer.observe(element));
     return () => observer.disconnect();
-  }, []);
+  }, [locale]);
 
   function revealClass(id: string, extra = "") {
     return `${extra} reveal ${visibleSections.has(id) ? "is-visible" : ""}`.trim();
@@ -54,6 +133,12 @@ export default function PortfolioPage({ locale }: { locale: Locale }) {
     window.localStorage.setItem("locale", nextLocale);
     const hash = window.location.hash;
     router.push(`/${nextLocale}${hash}`);
+  }
+
+  function resetFilters() {
+    setSelectedTech("all");
+    setSelectedSource("all");
+    setFeaturedOnly(false);
   }
 
   const filteredProjects = useMemo(() => {
@@ -67,6 +152,23 @@ export default function PortfolioPage({ locale }: { locale: Locale }) {
 
   const usedTechIds = Array.from(new Set(projects.flatMap((project) => project.technologies)));
   const sourceOptions = Array.from(new Set(projects.map((project) => project.source)));
+  function technologyFilter(id: string) {
+    const tech = techById.get(id);
+    if (!tech) return null;
+    const Icon = tech.icon;
+    return (
+      <button
+        key={id}
+        type="button"
+        className={selectedTech === id ? "chip active" : "chip"}
+        aria-pressed={selectedTech === id}
+        onClick={() => setSelectedTech(id)}
+      >
+        <Icon aria-hidden="true" style={{ color: tech.color }} />
+        {tech.label}
+      </button>
+    );
+  }
 
   return (
     <main className="site-shell">
@@ -76,7 +178,7 @@ export default function PortfolioPage({ locale }: { locale: Locale }) {
           <span className="prompt">{t.brandPath}</span>
           <span>Braian Sosa</span>
         </a>
-        <nav className="nav" aria-label="Primary">
+        <nav className="nav" aria-label={locale === "es" ? "Navegación principal" : "Main navigation"}>
           {navItems.map((item) => (
             <a href={`#${item.id}`} key={item.id}>
               {item.label}
@@ -118,6 +220,7 @@ export default function PortfolioPage({ locale }: { locale: Locale }) {
               <Mail size={18} />
               Email
             </a>
+            <a href="/Braian_Orlando_Sosa_CV_ES.pdf" download className="button icon-link"><Download size={18} aria-hidden="true" />{t.downloadCv}</a>
           </div>
         </div>
         <aside className="status-panel reveal is-visible delay-1" aria-label="Profile summary">
@@ -153,7 +256,7 @@ export default function PortfolioPage({ locale }: { locale: Locale }) {
           <p className="terminal-line typing-line">{t.commands.profile}</p>
           <h2>{t.profileTitle}</h2>
         </div>
-        <p className="section-copy">{t.profile}</p>
+        <div className="section-copy"><p>{t.profile}</p><p className="education-copy"><strong>{t.education}</strong><br />{t.educationText}</p></div>
       </section>
 
       <section className={revealClass("experience", "section")} id="experience" data-reveal="experience">
@@ -187,55 +290,53 @@ export default function PortfolioPage({ locale }: { locale: Locale }) {
           </div>
           <button
             className="button reset"
-            onClick={() => {
-              setSelectedTech("all");
-              setSelectedSource("all");
-              setFeaturedOnly(false);
-            }}
+            onClick={resetFilters}
           >
             <RotateCcw size={16} />
             {t.reset}
           </button>
         </div>
 
-        <div className="filters" aria-label="Project filters">
-          <button className={selectedTech === "all" ? "chip active" : "chip"} onClick={() => setSelectedTech("all")}>
+        <div className="filters" aria-label={t.projectFilters}>
+          <button className={selectedTech === "all" ? "chip active" : "chip"} aria-pressed={selectedTech === "all"} onClick={() => setSelectedTech("all")}>
             {t.filtersAll}
           </button>
-          {usedTechIds.map((id) => {
-            const tech = techById.get(id);
-            if (!tech) return null;
-            const Icon = tech.icon;
-            return (
-              <button
-                key={id}
-                className={selectedTech === id ? "chip active" : "chip"}
-                onClick={() => setSelectedTech(id)}
-              >
-                <Icon style={{ color: tech.color }} />
-                {tech.label}
-              </button>
-            );
-          })}
+          {usedTechIds.filter((id) => primaryFilters.has(id)).map(technologyFilter)}
         </div>
+        <details className="filter-disclosure">
+          <summary>{t.moreFilters}{selectedTech !== "all" && !primaryFilters.has(selectedTech) ? ` · ${techById.get(selectedTech)?.label}` : ""}<ChevronDown size={14} aria-hidden="true" /></summary>
+          <div className="filters">{usedTechIds.filter((id) => !primaryFilters.has(id)).map(technologyFilter)}</div>
+        </details>
 
-        <div className="filters secondary" aria-label="Source filters">
-          <button className={selectedSource === "all" ? "chip active" : "chip"} onClick={() => setSelectedSource("all")}>
+        <div className="filters secondary" aria-label={t.sourceFilters}>
+          <button className={selectedSource === "all" ? "chip active" : "chip"} aria-pressed={selectedSource === "all"} onClick={() => setSelectedSource("all")}>
             {t.sourceAll}
           </button>
           {sourceOptions.map((source) => (
             <button
               key={source}
               className={selectedSource === source ? "chip active" : "chip"}
+              aria-pressed={selectedSource === source}
               onClick={() => setSelectedSource(source)}
             >
               {source}
             </button>
           ))}
-          <button className={featuredOnly ? "chip active" : "chip"} onClick={() => setFeaturedOnly((value) => !value)}>
+          <button className={featuredOnly ? "chip active" : "chip"} aria-pressed={featuredOnly} onClick={() => setFeaturedOnly((value) => !value)}>
             {t.featuredOnly}
           </button>
         </div>
+        <p className="results-count" role="status" aria-live="polite">
+          {filteredProjects.length} {filteredProjects.length === 1 ? t.projectCountSingular : t.projectCount}
+        </p>
+        {filteredProjects.length === 0 ? (
+          <div className="empty-state">
+            <p>{t.noResults}</p>
+            <button className="button" onClick={resetFilters}>
+              <RotateCcw size={16} aria-hidden="true" />{t.reset}
+            </button>
+          </div>
+        ) : null}
 
         <div className="project-grid">
           {filteredProjects.map((project, index) => (
@@ -244,20 +345,23 @@ export default function PortfolioPage({ locale }: { locale: Locale }) {
               key={project.id}
             >
               <div className="card-top">
-                <span className={project.visibility === "public" ? "badge public" : "badge"}>{project.type}</span>
+                <span className={project.visibility === "public" ? "badge public" : "badge"}>{project.type[locale]}</span>
                 <span className="source">{project.source}</span>
               </div>
               <h3>{project.title[locale]}</h3>
               {project.media?.length ? (
                 <div className={`project-media media-count-${Math.min(project.media.length, 4)}`} aria-label={project.title[locale]}>
                   {project.media.slice(0, 4).map((item, mediaIndex) => (
-                    <img
+                    <button
+                      type="button"
+                      className={`media-button ${mediaIndex === 0 ? "primary-media" : ""}`}
                       key={item.src}
-                      src={item.src}
-                      alt={item.alt[locale]}
-                      className={mediaIndex === 0 ? "primary-media" : ""}
-                      loading="lazy"
-                    />
+                      aria-label={`${t.enlarge}: ${item.alt[locale]}`}
+                      onClick={() => setSelectedImage({ src: item.src, alt: item.alt[locale], title: project.title[locale] })}
+                    >
+                      <img src={item.src} alt={item.alt[locale]} loading="lazy" />
+                      <span className="media-zoom"><ZoomIn size={14} aria-hidden="true" /></span>
+                    </button>
                   ))}
                 </div>
               ) : null}
@@ -274,20 +378,8 @@ export default function PortfolioPage({ locale }: { locale: Locale }) {
                 <strong>{t.impact}</strong>
                 <p>{project.impact[locale]}</p>
               </div>
-              <div className="tech-row">
-                {project.technologies.slice(0, 7).map((id) => {
-                  const tech = techById.get(id);
-                  if (!tech) return null;
-                  const Icon = tech.icon;
-                  return (
-                    <span className="tech-pill" key={id}>
-                      <Icon style={{ color: tech.color }} />
-                      {tech.label}
-                    </span>
-                  );
-                })}
-                {project.technologies.length > 7 ? <span className="tech-pill">+{project.technologies.length - 7}</span> : null}
-              </div>
+              <ProjectCase project={project} locale={locale} />
+              <ProjectTechnologies ids={project.technologies} locale={locale} />
               <div className="repos">
                 <span>{project.visibility === "public" && project.relatedRepos.length ? t.repos : t.privateCode}</span>
                 {project.visibility === "public"
@@ -314,21 +406,25 @@ export default function PortfolioPage({ locale }: { locale: Locale }) {
           <p className="terminal-line typing-line">{t.commands.stack}</p>
           <h2>{t.stackTitle}</h2>
         </div>
-        <div className="stack-grid">
-          {technologies.map((tech, index) => {
-            const Icon = tech.icon;
-            return (
-              <div className={`stack-item stagger-${(index % 4) + 1}`} key={tech.id}>
-                <div className="stack-card-top">
-                  <span className="source">{tech.category}</span>
-                </div>
-                <div className="stack-card-main">
-                  <Icon style={{ color: tech.color }} />
-                  <span>{tech.label}</span>
-                </div>
+        <div className="stack-groups">
+          {Object.entries(technologyCategories).map(([category, label]) => (
+            <details className="stack-group" key={category} open>
+              <summary>{label[locale]}<ChevronDown size={16} aria-hidden="true" /></summary>
+              <div className="stack-grid">
+                {technologies.filter((tech) => tech.category === category).map((tech, index) => {
+                  const Icon = tech.icon;
+                  return (
+                    <div className={`stack-item stagger-${(index % 4) + 1}`} key={tech.id}>
+                      <div className="stack-card-main">
+                        <Icon aria-hidden="true" style={{ color: tech.color }} />
+                        <span>{tech.label}</span>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
-            );
-          })}
+            </details>
+          ))}
         </div>
       </section>
 
@@ -352,6 +448,12 @@ export default function PortfolioPage({ locale }: { locale: Locale }) {
           </a>
         </div>
       </footer>
+      <dialog ref={imageDialog} className="image-dialog" aria-labelledby="capture-title" onClose={() => setSelectedImage(null)} onClick={(event) => { if (event.target === event.currentTarget) imageDialog.current?.close(); }}>
+        {selectedImage ? <div className="capture-content">
+          <div className="capture-heading"><h2 id="capture-title">{selectedImage.title}</h2><button className="button" type="button" onClick={() => imageDialog.current?.close()} aria-label={t.close}><X size={20} aria-hidden="true" /></button></div>
+          <figure><img src={selectedImage.src} alt={selectedImage.alt} /><figcaption>{selectedImage.alt}</figcaption></figure>
+        </div> : null}
+      </dialog>
     </main>
   );
 }

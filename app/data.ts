@@ -6,6 +6,7 @@ import {
   SiGo,
   SiJavascript,
   SiNestjs,
+  SiNodedotjs,
   SiNextdotjs,
   SiOpenai,
   SiPostgresql,
@@ -32,6 +33,7 @@ import {
 import type { IconType } from "react-icons";
 
 export type Locale = "es" | "en";
+export type LocalizedText = Record<Locale, string>;
 
 export type Technology = {
   id: string;
@@ -53,7 +55,7 @@ export type Technology = {
 export type Project = {
   id: string;
   title: Record<Locale, string>;
-  type: string;
+  type: LocalizedText;
   source: "gottert" | "bligraf" | "personal" | "assist-north";
   visibility: "public" | "private";
   featured: boolean;
@@ -78,7 +80,22 @@ export const technologies: Technology[] = [
   { id: "go", label: "Go", category: "backend", icon: SiGo, color: "#00add8" },
   { id: "postgresql", label: "PostgreSQL", category: "data", icon: SiPostgresql, color: "#4169e1" },
   { id: "redis", label: "Redis", category: "data", icon: SiRedis, color: "#dc382d" },
-  { id: "influxdb", label: "InfluxDB", category: "data", icon: Database, color: "#38f8a6" },
+  { id: "nodejs", label: "Node.js", category: "backend", icon: SiNodedotjs, color: "#68a063" },
+  { id: "firestore", label: "Firestore", category: "data", icon: Database, color: "#ffca28" },
+  { id: "microsoft-365", label: "Microsoft Graph / SharePoint", category: "cloud", icon: Cloud, color: "#38bdf8" },
+  { id: "entra", label: "Entra ID / MSAL", category: "cloud", icon: Cloud, color: "#60a5fa" },
+  { id: "rag", label: "RAG / Embeddings", category: "ai", icon: BrainCircuit, color: "#c084fc" },
+  { id: "spacy", label: "spaCy / NLP", category: "ai", icon: BrainCircuit, color: "#38bdf8" },
+  { id: "face-api", label: "face-api.js", category: "ai", icon: BrainCircuit, color: "#a78bfa" },
+  { id: "numpy", label: "NumPy", category: "data", icon: Database, color: "#4dabcf" },
+  { id: "ollama", label: "Ollama", category: "ai", icon: Bot, color: "#f8fafc" },
+  { id: "jest", label: "Jest / Supertest", category: "testing", icon: TestTube2, color: "#e879a5" },
+  { id: "pytest", label: "pytest", category: "testing", icon: TestTube2, color: "#fbbf24" },
+  { id: "playwright", label: "Playwright", category: "testing", icon: TestTube2, color: "#45ba4b" },
+  { id: "prisma", label: "Prisma", category: "data", icon: Database, color: "#a5b4fc" },
+  { id: "apps-script", label: "Google Apps Script", category: "tools", icon: Workflow, color: "#fbbc04" },
+  { id: "mercadopago", label: "Mercado Pago", category: "tools", icon: Cable, color: "#38bdf8" },
+  { id: "php", label: "PHP", category: "backend", icon: CircuitBoard, color: "#a5b4fc" },
   { id: "socketio", label: "Socket.IO", category: "realtime", icon: SiSocketdotio, color: "#f8fafc" },
   { id: "websockets", label: "WebSockets", category: "realtime", icon: RadioTower, color: "#34d399" },
   { id: "snap7", label: "Snap7", category: "industrial", icon: Cable, color: "#f59e0b" },
@@ -97,6 +114,18 @@ export const technologies: Technology[] = [
   { id: "git", label: "Git", category: "tools", icon: GitBranch, color: "#f97316" },
 ];
 
+export const technologyCategories: Record<Technology["category"], LocalizedText> = {
+  frontend: { es: "Frontend", en: "Frontend" },
+  backend: { es: "Backend", en: "Backend" },
+  data: { es: "Datos", en: "Data" },
+  realtime: { es: "Tiempo real", en: "Real time" },
+  cloud: { es: "Cloud y despliegue", en: "Cloud & deployment" },
+  testing: { es: "Pruebas", en: "Testing" },
+  ai: { es: "IA y modelos aplicados", en: "AI & applied models" },
+  industrial: { es: "Integración industrial", en: "Industrial integration" },
+  tools: { es: "Herramientas y automatización", en: "Tools & automation" },
+};
+
 export const projects: Project[] = [
   {
     id: "kiln-control",
@@ -104,7 +133,7 @@ export const projects: Project[] = [
       es: "Monitoreo y Control de Secaderos Industriales",
       en: "Industrial Kiln Monitoring & Control",
     },
-    type: "Professional project - code not public",
+    type: { es: "Proyecto profesional · código privado", en: "Professional project · private code" },
     source: "gottert",
     visibility: "private",
     featured: true,
@@ -117,14 +146,14 @@ export const projects: Project[] = [
       en: "Centralize reading, visualization and operational control of critical industrial variables.",
     },
     role: {
-      es: "Full Stack Developer, backend industrial, integraciones realtime.",
-      en: "Full Stack Developer, industrial backend, realtime integrations.",
+      es: "Desarrollo full stack de la supervisión y el control, integrando PLC Siemens, adquisición de datos e interfaces en tiempo real.",
+      en: "Full stack development of monitoring and control, integrating Siemens PLCs, data acquisition and real-time interfaces.",
     },
     impact: {
-      es: "Datos operativos en tiempo real y arquitectura preparada para visualización, control y trazabilidad.",
-      en: "Real-time operational data and an architecture prepared for visualization, control and traceability.",
+      es: "Consulta del estado de las cámaras, visualización de históricos y operación de procesos desde una interfaz web.",
+      en: "Chamber status, historical data and process operation through a web interface.",
     },
-    technologies: ["fastapi", "python", "snap7", "plc", "socketio", "websockets", "redis", "influxdb", "docker", "nextjs", "react"],
+    technologies: ["fastapi", "python", "snap7", "plc", "socketio", "websockets", "redis", "docker", "nextjs", "react", "industrial"],
     relatedRepos: ["controlador-server-secaderos", "controlador-web-secaderos"],
     media: [
       {
@@ -142,28 +171,28 @@ export const projects: Project[] = [
       es: "Plataforma Operativa Gottert",
       en: "Gottert Operations Platform",
     },
-    type: "Professional project - code not public",
+    type: { es: "Proyecto profesional · código privado", en: "Professional project · private code" },
     source: "gottert",
     visibility: "private",
     featured: true,
     description: {
-      es: "Ecosistema de aplicaciones internas para digitalizar procesos comerciales, operativos, productivos, de proyectos, suministros y e-commerce.",
-      en: "Internal application ecosystem for digitizing commercial, operational, production, project, supply and e-commerce workflows.",
+      es: "Ecosistema de CRM, gestión comercial, posventa, producción y proyectos, conectado mediante APIs e integración documental con Microsoft 365.",
+      en: "An ecosystem for CRM, sales operations, after-sales, production and projects, connected through APIs and Microsoft 365 document integrations.",
     },
     problem: {
       es: "Reemplazar procesos dispersos o manuales por herramientas centralizadas y trazables.",
       en: "Replace scattered or manual workflows with centralized, traceable tools.",
     },
     role: {
-      es: "Full Stack Developer, frontend/backend, modelado de datos, integraciones y despliegue.",
-      en: "Full Stack Developer, frontend/backend, data modeling, integrations and deployment.",
+      es: "Desarrollo y evolución de aplicaciones, modelos de datos y APIs, con autenticación corporativa, integración documental y despliegue en Azure.",
+      en: "Development and evolution of applications, data models and APIs, with corporate authentication, document integrations and Azure deployment.",
     },
     impact: {
-      es: "Mayor centralización operativa, mejor visibilidad de procesos y bases reutilizables para nuevos módulos.",
-      en: "Better operational centralization, improved process visibility and reusable foundations for new modules.",
+      es: "Seguimiento de clientes, órdenes y materiales, con documentación y datos operativos conectados entre aplicaciones.",
+      en: "Tracking of customers, orders and materials, with documents and operational data connected across applications.",
     },
-    technologies: ["nextjs", "react", "typescript", "nestjs", "postgresql", "redis", "azure", "openai", "docker"],
-    relatedRepos: ["COMERCIAL-G-APP", "crm-gottert-v2", "e-commerce-at", "produccion-apps-v4", "Proyectos-Apps-Gottert", "gottert-api"],
+    technologies: ["nextjs", "react", "typescript", "nodejs", "nestjs", "postgresql", "firestore", "redis", "azure", "microsoft-365", "entra", "openai", "docker", "jest", "playwright", "testing", "github-actions"],
+    relatedRepos: ["COMERCIAL-G-APP", "crm-gottert-v2", "e-commerce-at", "produccion-apps-v4", "Proyectos-Apps-Gottert", "gottert-api", "AT-APP", "summa-integration"],
     media: [
       {
         src: "/crm-app-captura.png",
@@ -201,27 +230,27 @@ export const projects: Project[] = [
       es: "Portal de Talento Humano",
       en: "Talent / HR Portal",
     },
-    type: "Professional project - code not public",
+    type: { es: "Proyecto profesional · código privado", en: "Professional project · private code" },
     source: "gottert",
     visibility: "private",
     featured: true,
     description: {
-      es: "Portal de talento humano con frontend, API, formularios y servicios auxiliares para centralizar procesos de RRHH, asistencia y gestión interna.",
-      en: "Human talent portal with frontend, API, forms and auxiliary services to centralize HR, attendance and internal management workflows.",
+      es: "Portal de RRHH para asistencia, legajos, turnos, novedades y certificados, integrado con relojes ZKTeco y servicios de procesamiento en segundo plano.",
+      en: "HR portal for attendance, employee records, shifts, updates and certificates, integrated with ZKTeco clocks and background processing services.",
     },
     problem: {
       es: "Unificar información y flujos de RRHH con autenticación, formularios, jobs, mailer y servicios internos.",
       en: "Unify HR information and workflows with authentication, forms, jobs, mailer and internal services.",
     },
     role: {
-      es: "Full Stack Developer, arquitectura modular, API, frontend y servicios de soporte.",
-      en: "Full Stack Developer, modular architecture, API, frontend and supporting services.",
+      es: "Desarrollo del portal y la API de RRHH, integración de relojes mediante Python y coordinación de formularios, documentos y trabajos en segundo plano.",
+      en: "Development of the HR portal and API, clock integration with Python, and coordination of forms, documents and background jobs.",
     },
     impact: {
-      es: "Procesos de RRHH más ordenados, datos centralizados y base técnica extensible.",
-      en: "More organized HR processes, centralized data and an extensible technical base.",
+      es: "Consulta centralizada de asistencia y novedades, con registros de dispositivos vinculados al portal y gestión de documentación del personal.",
+      en: "Centralized attendance and HR updates, linking device records to the portal and managing employee documents.",
     },
-    technologies: ["nextjs", "react", "nestjs", "postgresql", "azure", "python", "automation"],
+    technologies: ["nextjs", "react", "nodejs", "nestjs", "postgresql", "azure", "python", "automation", "microsoft-365", "entra", "openai", "jest", "pytest", "testing", "github-actions"],
     relatedRepos: ["portal-th-api", "portal-th-app", "portal-th-forms", "portal-th-clock-service"],
     media: [
       {
@@ -239,27 +268,27 @@ export const projects: Project[] = [
       es: "Sistema de Gestión de Suministros",
       en: "Supply Management System",
     },
-    type: "Professional project - code not public",
+    type: { es: "Proyecto profesional · código privado", en: "Professional project · private code" },
     source: "gottert",
     visibility: "private",
     featured: false,
     description: {
-      es: "Sistema interno para gestión de suministros con frontend operativo, API dedicada, autenticación, tablas avanzadas e integraciones.",
-      en: "Internal supply management system with operational frontend, dedicated API, authentication, advanced tables and integrations.",
+      es: "Gestión de pedidos de materiales y sus etapas de autorización, compras, almacén y logística, con API dedicada y permisos por operación.",
+      en: "Material requests across approval, purchasing, warehouse and logistics stages, with a dedicated API and operation-level permissions.",
     },
     problem: {
       es: "Organizar solicitudes, seguimiento y administración de suministros dentro de una herramienta trazable.",
       en: "Organize requests, tracking and supply administration inside a traceable tool.",
     },
     role: {
-      es: "Full Stack Developer, API, frontend y experiencia operativa.",
-      en: "Full Stack Developer, API, frontend and operational experience.",
+      es: "Desarrollo full stack del circuito de pedidos, con API NestJS, validación en servidor y vistas para cada etapa operativa.",
+      en: "Full stack development of the request workflow, with a NestJS API, server-side validation and views for each operational stage.",
     },
     impact: {
-      es: "Mejor seguimiento de información y reducción de controles dispersos.",
-      en: "Better information tracking and fewer scattered controls.",
+      es: "Seguimiento del estado, las autorizaciones y los responsables de cada pedido desde un mismo sistema.",
+      en: "Tracking of each request’s status, approvals and responsible users in one system.",
     },
-    technologies: ["nextjs", "react", "nestjs", "postgresql", "azure", "typescript"],
+    technologies: ["nextjs", "react", "nestjs", "postgresql", "azure", "typescript", "nodejs", "jest", "testing", "github-actions"],
     relatedRepos: ["suministros-api", "suministros-app"],
     media: [
       {
@@ -277,7 +306,7 @@ export const projects: Project[] = [
       es: "Suite Operativa Bligraf",
       en: "Bligraf Operational Suite",
     },
-    type: "Professional project - code not public",
+    type: { es: "Proyecto profesional · código privado", en: "Professional project · private code" },
     source: "bligraf",
     visibility: "private",
     featured: true,
@@ -290,14 +319,14 @@ export const projects: Project[] = [
       en: "Integrate administrative and production workflows that require input, consolidation, analysis and operational tracking.",
     },
     role: {
-      es: "Full Stack Developer, frontend operativo, automatización, integraciones e IA aplicada.",
-      en: "Full Stack Developer, operational frontend, automation, integrations and applied AI.",
+      es: "Desarrollo de CRM y liquidación, automatización del procesamiento de archivos e integración de asistentes de IA con información comercial.",
+      en: "CRM and production settlement development, file-processing automation and integration of AI assistants with sales information.",
     },
     impact: {
-      es: "Flujos más centralizados y herramientas específicas para operaciones de Bligraf Chile.",
-      en: "More centralized workflows and purpose-built tools for Bligraf Chile operations.",
+      es: "Gestión de oportunidades con asistencia contextual, consultas sobre conocimiento comercial y consolidación de producción para liquidación y cobro.",
+      en: "Opportunity management with contextual assistance, knowledge-based sales queries and production consolidation for settlement and billing.",
     },
-    technologies: ["nextjs", "react", "postgresql", "azure", "openai", "typescript"],
+    technologies: ["nextjs", "react", "postgresql", "azure", "openai", "typescript", "firestore", "rag", "playwright", "testing", "github-actions"],
     relatedRepos: ["crm-bligraf", "cobro-produccion-bligraf-chile", "liquidacion-produccion-bligraf", "chatbot-externo-bligraf"],
   },
   {
@@ -306,27 +335,27 @@ export const projects: Project[] = [
       es: "SIGRH+",
       en: "SIGRH+",
     },
-    type: "Public repo",
+    type: { es: "Repositorio público", en: "Public repository" },
     source: "personal",
     visibility: "public",
     featured: true,
     description: {
-      es: "Sistema integral de gestión de recursos humanos con IA, backend de negocio y frontend para portal público y backoffice interno.",
-      en: "AI-powered human resources management system with business backend and frontend for a public portal and internal backoffice.",
+      es: "Sistema de RRHH con reclutamiento, personal, asistencia y nómina, que integra matching de CVs mediante NLP y asistencia con reconocimiento facial.",
+      en: "HR system for recruitment, employee records, attendance and payroll, integrating NLP-based CV matching and facial recognition for attendance.",
     },
     problem: {
       es: "Centralizar reclutamiento, personal, asistencia, nómina, licencias y control de acceso por roles.",
       en: "Centralize recruitment, staff, attendance, payroll, leaves and role-based access control.",
     },
     role: {
-      es: "Full Stack Developer.",
-      en: "Full Stack Developer.",
+      es: "Desarrollo full stack e integración de modelos preentrenados de NLP y visión por computadora en reclutamiento y asistencia.",
+      en: "Full stack development and integration of pretrained NLP and computer vision models into recruitment and attendance workflows.",
     },
     impact: {
-      es: "Producto completo con separación frontend/backend y módulos de apoyo basados en IA.",
-      en: "Complete product with frontend/backend separation and AI-supported modules.",
+      es: "Comparación de habilidades entre postulaciones y requisitos, y registro de asistencia mediante descriptores faciales.",
+      en: "Skill matching between applications and job requirements, and attendance recording using facial descriptors.",
     },
-    technologies: ["python", "javascript", "fastapi", "react", "postgresql", "ai"],
+    technologies: ["python", "javascript", "fastapi", "react", "postgresql", "ai", "nextjs", "spacy", "face-api", "numpy", "docker"],
     relatedRepos: ["backend-sigrh-g4", "frontend-sigrh-g4"],
     links: [
       { label: "Backend", href: "https://github.com/braiansosaDev/backend-sigrh-g4" },
@@ -339,7 +368,7 @@ export const projects: Project[] = [
       es: "Agente de Workspace CodeAct",
       en: "CodeAct Workspace Agent",
     },
-    type: "Public repo",
+    type: { es: "Repositorio público", en: "Public repository" },
     source: "personal",
     visibility: "public",
     featured: false,
@@ -352,14 +381,14 @@ export const projects: Project[] = [
       en: "Experiment with agents able to execute local actions from instructions and LLM-assisted reasoning.",
     },
     role: {
-      es: "Developer / experimentación técnica.",
-      en: "Developer / technical exploration.",
+      es: "Desarrollo experimental de un agente en Go con Ollama, ejecución de PowerShell y realimentación de resultados.",
+      en: "Experimental development of a Go agent with Ollama, PowerShell execution and a result-feedback loop.",
     },
     impact: {
-      es: "Demuestra interés práctico en agentes, automatización local y modelos ejecutados fuera de servicios cloud.",
-      en: "Shows practical interest in agents, local automation and models running outside cloud services.",
+      es: "Prototipo ejecutable que transforma instrucciones en acciones locales y utiliza sus resultados para continuar la tarea.",
+      en: "An executable prototype that turns instructions into local actions and uses their results to continue the task.",
     },
-    technologies: ["go", "agents", "ai", "automation"],
+    technologies: ["go", "agents", "ai", "automation", "ollama", "testing"],
     relatedRepos: ["codeact-workspace-agent"],
     links: [{ label: "GitHub", href: "https://github.com/braiansosaDev/codeact-workspace-agent" }],
   },
@@ -369,7 +398,7 @@ export const projects: Project[] = [
       es: "Automatizaciones Assist North",
       en: "Assist North Automation",
     },
-    type: "Professional case study - code not public",
+    type: { es: "Caso profesional · código privado", en: "Professional case study · private code" },
     source: "assist-north",
     visibility: "private",
     featured: false,
@@ -382,15 +411,67 @@ export const projects: Project[] = [
       en: "Reduce manual controls, repetitive input, operational errors and administrative time.",
     },
     role: {
-      es: "Software Engineer, automatización, soporte e implementación con usuarios internos.",
-      en: "Software Engineer, automation, support and implementation with internal users.",
+      es: "Desarrollo de aplicaciones y automatizaciones, relevamiento de necesidades, integración de proveedores y acompañamiento a usuarios.",
+      en: "Application and automation development, requirements gathering, vendor integration and user support.",
     },
     impact: {
-      es: "Procesos más rápidos, reportes automatizados y mejor continuidad operativa.",
-      en: "Faster processes, automated reports and better operational continuity.",
+      es: "Carga de servicios, cálculos y reportes automatizados para acompañar la operación de asistencia vehicular.",
+      en: "Automated service entry, calculations and reports supporting vehicle assistance operations.",
     },
-    technologies: ["python", "automation", "selenium", "testing"],
+    technologies: ["python", "automation", "selenium", "testing", "pytest", "apps-script"],
     relatedRepos: [],
+  },
+  {
+    id: "assist-benefits",
+    title: { es: "Portal de Beneficios Assist North", en: "Assist North Benefits Portal" },
+    type: { es: "Proyecto profesional · código privado", en: "Professional project · private code" },
+    source: "assist-north",
+    visibility: "private",
+    featured: false,
+    description: {
+      es: "Portal para socios, comercios y administración, con planes, beneficios, cupones QR y reglas de canje por vigencia y límites de uso.",
+      en: "A portal for members, merchants and administrators, with plans, benefits, QR coupons and redemption rules based on validity and usage limits.",
+    },
+    problem: {
+      es: "Coordinar beneficios y canjes entre socios y comercios, respetando planes, sucursales, cupos y períodos.",
+      en: "Coordinate member benefits and merchant redemptions while respecting plans, branches, quotas and periods.",
+    },
+    role: {
+      es: "Adaptación de una base NextCRM al dominio de beneficios, con portales por rol, reglas de elegibilidad y operaciones transaccionales.",
+      en: "Adaptation of a NextCRM base to the benefits domain, with role-specific portals, eligibility rules and transactional operations.",
+    },
+    impact: {
+      es: "Emisión y validación de cupones con trazabilidad del canje y control de vigencias y límites individuales y globales.",
+      en: "Coupon issuance and validation with redemption traceability and individual, global and validity limits.",
+    },
+    technologies: ["nextjs", "react", "typescript", "postgresql", "prisma", "jest", "playwright", "testing"],
+    relatedRepos: ["assist-north-benefits", "nextcrm"],
+  },
+  {
+    id: "assist-website",
+    title: { es: "Sitio Comercial y Suscripciones Assist North", en: "Assist North Website & Subscriptions" },
+    type: { es: "Proyecto profesional · código privado", en: "Professional project · private code" },
+    source: "assist-north",
+    visibility: "private",
+    featured: false,
+    description: {
+      es: "Sitio de planes de asistencia vehicular con registro, catálogo administrable y flujo de suscripción y pagos integrado con Mercado Pago.",
+      en: "Vehicle assistance plans website with registration, an editable catalog and a subscription and payment flow integrated with Mercado Pago.",
+    },
+    problem: {
+      es: "Conectar la presentación de planes con el alta de socios, los pagos y la actualización del catálogo comercial.",
+      en: "Connect plan information with member registration, payments and commercial catalog updates.",
+    },
+    role: {
+      es: "Desarrollo e integración de frontend, formularios, backend de suscripciones y catálogo administrable.",
+      en: "Development and integration of the frontend, forms, subscription backend and editable catalog.",
+    },
+    impact: {
+      es: "Registro de suscriptores, creación de pagos y actualización de estados mediante webhooks, con administración del catálogo.",
+      en: "Subscriber registration, payment creation and status updates via webhooks, with catalog administration.",
+    },
+    technologies: ["react", "typescript", "apps-script", "mercadopago", "php", "docker"],
+    relatedRepos: ["web-assistnorth", "as-caba-24-asistencia"],
   },
 ];
 
@@ -412,14 +493,14 @@ export const copy = {
     statusLabel: "estado",
     locationLabel: "ubicación",
     focusLabel: "foco",
-    focusValue: "Backoffice / Tiempo real / Automatización",
+    focusValue: "Backoffice / Tiempo real / Automatización e IA",
     availability: "Disponibilidad full time",
     intro:
       "Construyo sistemas full stack, backoffices, portales internos e integraciones para automatizar operaciones y volver trazables procesos complejos.",
     viewProjects: "Ver proyectos",
     profileTitle: "Perfil",
     profile:
-      "Desarrollador Full Stack con experiencia en diseño, arquitectura y desarrollo de sistemas escalables orientados a transformación digital y automatización de operaciones. Foco en backoffice, portales internos, sistemas industriales, integraciones, modelado de datos, testing y despliegue cloud.",
+      "Desarrollador Full Stack con más de seis años de experiencia en aplicaciones empresariales e integraciones. Desarrollo backoffices, portales y sistemas industriales con React/Next.js, Node.js/NestJS y Python/FastAPI. Trabajo con datos, autenticación corporativa, automatización y despliegues en Azure, e integro IA generativa y modelos preentrenados de NLP y visión por computadora en procesos de negocio.",
     experienceTitle: "Experiencia",
     projectsTitle: "Proyectos",
     filtersAll: "Todos",
@@ -434,6 +515,25 @@ export const copy = {
     repos: "Repos relacionados",
     privateCode: "Código privado",
     open: "Abrir",
+    explore: "Explorar caso",
+    context: "Contexto y alcance",
+    activities: "Actividades",
+    implementation: "Cómo funciona",
+    fullStack: "Stack del proyecto",
+    less: "Ver menos",
+    projectStatus: "Contexto del proyecto",
+    period: "Período",
+    noResults: "No hay proyectos con esta combinación de filtros.",
+    projectCount: "proyectos encontrados",
+    projectCountSingular: "proyecto encontrado",
+    moreFilters: "Más tecnologías",
+    projectFilters: "Filtros de proyectos",
+    sourceFilters: "Filtros por origen",
+    enlarge: "Ampliar captura",
+    close: "Cerrar captura",
+    education: "Formación",
+    educationText: "UNGS · Tecnicatura Universitaria en Informática: 100% de materias aprobadas. Licenciatura en Sistemas en curso, 60% del plan aprobado. Formación Full Stack en Iters. Inglés B1.",
+    downloadCv: "Descargar CV (PDF, español)",
   },
   en: {
     brandPath: "~/portfolio",
@@ -452,14 +552,14 @@ export const copy = {
     statusLabel: "status",
     locationLabel: "location",
     focusLabel: "focus",
-    focusValue: "Backoffice / Realtime / Automation",
+    focusValue: "Backoffice / Realtime / Automation & AI",
     availability: "Full-time availability",
     intro:
       "I build full stack systems, backoffices, internal portals and integrations that automate operations and make complex processes traceable.",
     viewProjects: "View projects",
     profileTitle: "Profile",
     profile:
-      "Full Stack Developer experienced in designing, architecting and building scalable systems for digital transformation and operations automation. Focused on back-office platforms, internal portals, industrial systems, integrations, data modeling, testing and cloud deployment.",
+      "Full Stack Developer with over six years of experience in enterprise applications and integrations. I build backoffices, portals and industrial systems with React/Next.js, Node.js/NestJS and Python/FastAPI. My work covers data, corporate authentication, automation and Azure deployment, integrating generative AI and pretrained NLP and computer vision models into business workflows.",
     experienceTitle: "Experience",
     projectsTitle: "Projects",
     filtersAll: "All",
@@ -474,6 +574,25 @@ export const copy = {
     repos: "Related repos",
     privateCode: "Private code",
     open: "Open",
+    explore: "Explore case",
+    context: "Context & scope",
+    activities: "Activities",
+    implementation: "How it works",
+    fullStack: "Project stack",
+    less: "Show less",
+    projectStatus: "Project context",
+    period: "Period",
+    noResults: "No projects match this combination of filters.",
+    projectCount: "projects found",
+    projectCountSingular: "project found",
+    moreFilters: "More technologies",
+    projectFilters: "Project filters",
+    sourceFilters: "Source filters",
+    enlarge: "Enlarge screenshot",
+    close: "Close screenshot",
+    education: "Education",
+    educationText: "UNGS · University program in Informatics: all coursework passed. Licenciatura en Sistemas in progress, 60% of curriculum completed. Full Stack training at Iters. English B1.",
+    downloadCv: "Download CV (PDF, Spanish)",
   },
 };
 
@@ -481,34 +600,40 @@ export const experience = [
   {
     company: "GOTTERT",
     period: { es: "09/2023 - Presente", en: "09/2023 - Present" },
-    title: "Software Engineer",
+    title: "Software Engineer / Full Stack Developer",
     points: {
       es: [
-        "Sistemas para CRM, RRHH, MES/MRP, posventa, portales internos y procesos industriales.",
-        "Soluciones end-to-end con Python, FastAPI, Node.js, NestJS, React, Next.js, PostgreSQL y Docker.",
-        "Arquitecturas realtime con Snap7, WebSockets, Socket.IO, Redis e InfluxDB.",
+        "Desarrollo y evolución de interfaces, APIs y modelos de datos para CRM, RRHH, suministros, posventa y producción.",
+        "Integración con Entra ID, Microsoft Graph y SharePoint; permisos, API keys y trabajos en segundo plano.",
+        "Automatización de importaciones Excel/CSV, reglas de cálculo y generación de documentos PDF.",
+        "Asistentes y chatbots con contexto de negocio, RAG, llamadas a herramientas y respuestas estructuradas.",
+        "Integración industrial con PLC Siemens, Snap7, Redis y Socket.IO para supervisión y control en tiempo real.",
+        "Pruebas unitarias, de integración y de interfaz; despliegue en Azure con Docker, GitHub Actions y monitoreo.",
       ],
       en: [
-        "Systems for CRM, HR, MES/MRP, after-sales, internal portals and industrial workflows.",
-        "End-to-end solutions with Python, FastAPI, Node.js, NestJS, React, Next.js, PostgreSQL and Docker.",
-        "Realtime architectures with Snap7, WebSockets, Socket.IO, Redis and InfluxDB.",
+        "Development and evolution of interfaces, APIs and data models for CRM, HR, supplies, after-sales and production.",
+        "Entra ID, Microsoft Graph and SharePoint integrations; permissions, API keys and background jobs.",
+        "Automation of Excel/CSV imports, calculation rules and PDF document generation.",
+        "Business-context assistants and chatbots with RAG, tool calling and structured responses.",
+        "Industrial integration with Siemens PLCs, Snap7, Redis and Socket.IO for real-time monitoring and control.",
+        "Unit, integration and interface testing; Azure deployment with Docker, GitHub Actions and monitoring.",
       ],
     },
   },
   {
     company: "Assist North Asistencia Vehicular",
     period: { es: "02/2020 - 08/2023", en: "02/2020 - 08/2023" },
-    title: "Software Engineer",
+    title: "Software Engineer / Full Stack Developer",
     points: {
       es: [
-        "Aplicaciones internas para centralizar información y digitalizar procesos administrativos.",
-        "Automatizaciones con Google Apps Script y Python para cálculos, reportes y tareas recurrentes.",
-        "Testing y validaciones con Selenium y PyTest, soporte IT y continuidad operativa.",
+        "Desarrollo y mantenimiento de aplicaciones internas para digitalizar procesos administrativos y operativos.",
+        "Integración con software de proveedores y automatización de la carga de servicios, cálculos de distancias y reportes con Python y Google Apps Script.",
+        "Relevamiento con usuarios, implementación y soporte; pruebas y validaciones con Selenium y pytest.",
       ],
       en: [
-        "Internal applications to centralize information and digitize administrative processes.",
-        "Automations with Google Apps Script and Python for calculations, reports and recurring tasks.",
-        "Testing and validations with Selenium and PyTest, IT support and operational continuity.",
+        "Development and maintenance of internal applications to digitize administrative and operational processes.",
+        "Vendor software integration and automation of service entry, distance calculations and reporting with Python and Google Apps Script.",
+        "User requirements gathering, implementation and support; testing and validation with Selenium and pytest.",
       ],
     },
   },
